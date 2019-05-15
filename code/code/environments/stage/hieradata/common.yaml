@@ -1,0 +1,11 @@
+---
+
+motd::content: 'From Hiera'
+
+ssh_password::daniel: "password"
+
+ssh_keys::daniel:
+  - 'ssh-rsa AAAAB3NzaCxxx dummy_key'
+  
+ssh_keys::root: 
+  - "ssh-rsa AAAAB3Nzxx dummy_key"

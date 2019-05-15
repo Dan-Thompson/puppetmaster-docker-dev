@@ -1,0 +1,21 @@
+FROM debian:latest 
+MAINTAINER Daniel Thompson
+
+#EXPOSE 8140
+
+#RUN echo 'deb http://deb.debian.org/debian stretch-backports main' > /etc/apt/sources.list.d/backports.list
+RUN apt-get update && apt-get install -y puppet vim
+
+# Set environment variables.
+ENV HOME /root
+
+# Define working directory.
+WORKDIR /root
+
+# Define default command.
+#CMD ["bash"]
+#CMD /etc/init.d/puppet start && tail -f /dev/null
+
+ADD ./puppet-slave.conf /etc/puppet/puppet.conf
+COPY ./start-slave.sh /root/start.sh 
+ENTRYPOINT ["/root/start.sh"]

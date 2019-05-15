@@ -1,0 +1,39 @@
+version: "2"
+
+services:
+  master:
+    image: puppetmaster:latest
+    container_name: puppetmaster
+    hostname: puppetmaster
+    volumes:
+      - ./code:/etc/puppet/
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+    ports:
+       - "8140:8140"
+    extra_hosts:
+      - "puppet:127.0.0.1"
+
+  slave:
+    image: slave:latest
+    networks:
+      vpcbr:
+    build:
+      context: .
+      dockerfile: Dockerfile.slave
+    extra_hosts:
+      - "puppet:10.5.0.5"
+
+
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
